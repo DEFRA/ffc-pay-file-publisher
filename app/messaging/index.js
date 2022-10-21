@@ -4,8 +4,8 @@ const { MessageReceiver } = require('ffc-messaging')
 let receiver
 
 const start = async () => {
-  const paymentAction = message => processSendMessage(message, receiver)
-  receiver = new MessageReceiver(config.submitSubscription, paymentAction)
+  const action = message => processSendMessage(message, receiver)
+  receiver = new MessageReceiver(config.sendSubscription, action)
   await receiver.subscribe()
   console.info('Ready to publish files')
 }

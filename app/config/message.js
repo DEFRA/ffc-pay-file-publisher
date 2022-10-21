@@ -38,8 +38,8 @@ if (mqResult.error) {
   throw new Error(`The message queue config is invalid. ${mqResult.error.message}`)
 }
 
-const submitSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.submitSubscription }
+const sendSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.sendSubscription }
 
 module.exports = {
-  submitSubscription
+  sendSubscription
 }

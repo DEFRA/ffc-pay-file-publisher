@@ -1,7 +1,7 @@
 const { BlobServiceClient } = require('@azure/storage-blob')
 const { ShareServiceClient } = require('@azure/storage-file-share')
 const { DefaultAzureCredential } = require('@azure/identity')
-const config = require('../config/storage')
+const config = require('./config/storage')
 const { AR } = require('./ledgers')
 
 let blobServiceClient

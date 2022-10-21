@@ -1,4 +1,4 @@
-const { totalRetries } = require('./config')
+const { totalRetries } = require('./config/publish')
 
 const retry = async (fn, retriesLeft = totalRetries, interval = 1000, exponential = true) => {
   try {
