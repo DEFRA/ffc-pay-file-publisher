@@ -4,6 +4,11 @@ if [ -z "$(docker network ls --filter name=^ffc-pay$ --format={{.Name}})" ]; the
   docker network create ffc-pay
 fi
 
+if [ -n "$(docker container ls --filter name=ffc-pay-dax-azurite --format={{.ID}})" ]; then
+  echo "Azurite container already exists, skipping creation"
+  args="--scale ffc-pay-dax-azurite=0"
+fi
+
 set -e
 projectRoot="$(a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; cd "$a/.." || return; pwd)"
 

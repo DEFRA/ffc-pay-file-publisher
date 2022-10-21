@@ -20,6 +20,6 @@ services:
       AP_FOLDER: ${AP_FOLDER:-AP}
       AR_FOLDER: ${AR_FOLDER:-AR}
 
-  ffc-pay-file-publisher-azurite:
+  ffc-pay-dax-azurite:
     image: mcr.microsoft.com/azure-storage/azurite:3.17.1
     command: "azurite-blob --loose --blobHost 0.0.0.0"
