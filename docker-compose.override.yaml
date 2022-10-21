@@ -8,8 +8,18 @@ services:
     image: ffc-pay-file-publisher-development
     container_name: ffc-pay-file-publisher-development
     ports:
-      - "3000:3000"
-      - "9229:9229"
+      - "9261:9229"
     volumes:
       - ./app:/home/node/app
       - ./package.json:/home/node/package.json
+    environment:
+      AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://ffc-pay-file-publisher-azurite:10000/devstoreaccount1;
+
+  ffc-pay-file-publisher-azurite:
+    volumes:
+      - azurite_data:/data
+    ports:
+      - "10051:10000"
+
+volumes:
+  azurite_data:
