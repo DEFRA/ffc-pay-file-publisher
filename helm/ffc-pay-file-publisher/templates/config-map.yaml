@@ -2,6 +2,22 @@
 {{- define "ffc-pay-file-publisher.config-map" -}}
 data:
   NODE_ENV: {{ quote .Values.environment }}
-  PORT: {{ quote .Values.container.port }}
   APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
+  MESSAGE_QUEUE_HOST: {{ quote .Values.container.messageQueueHost }}
+  {{- if and (.Values.environmentCode) (not .Values.pr) }}
+  SEND_TOPIC_ADDRESS: {{ .Values.container.sendTopicAddress }}-{{ .Values.environmentCode }}
+  {{ else }}
+  SEND_TOPIC_ADDRESS: {{ quote .Values.container.sendTopicAddress }}
+  {{- end }}
+  SEND_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.sendSubscriptionAddress }}  
+  AZURE_STORAGE_ACCOUNT_NAME: {{ quote .Values.container.azureStorageAccountName }}
+  AZURE_STORAGE_CONNECTION_STRING: {{ quote .Values.container.azureStorageConnectionString }}
+  AZURE_STORAGE_USE_CONNECTION_STRING: {{ quote .Values.container.azureStorageUseConnectionString }}
+  AZURE_STORAGE_CREATE_CONTAINERS: {{ quote .Values.container.azureStorageCreateContainers }}
+  AZURE_STORAGE_CONTAINER: {{ quote .Values.container.storageContainer }}
+  AZURE_STORAGE_FOLDER: {{ quote .Values.container.storageFolder }}
+  DAX_STORAGE_CONNECTION_STRING: {{ quote .Values.container.daxStorageConnectionString }}
+  DAX_STORAGE_SHARE_NAME: {{ quote .Values.container.daxStorageShareName }}
+  AP_FOLDER: {{ quote .Values.container.apFolder }}
+  AR_FOLDER: {{ quote .Values.container.arFolder }}
 {{- end -}}

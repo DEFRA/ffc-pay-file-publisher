@@ -23,7 +23,7 @@ const mqConfig = {
     type: 'subscription',
     appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
   },
-  submitSubscription: {
+  sendSubscription: {
     address: process.env.SEND_SUBSCRIPTION_ADDRESS,
     topic: process.env.SEND_TOPIC_ADDRESS
   }

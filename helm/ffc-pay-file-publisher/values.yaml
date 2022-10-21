@@ -1,4 +1,5 @@
 environment: development
+environmentCode:
 name: ffc-pay-file-publisher
 namespace: ffc-pay
 workstream: ffc-pay
@@ -23,23 +24,25 @@ deployment:
   minReadySeconds: 0
 
 container:
-  imagePullPolicy: IfNotPresent
-  requestMemory: 10Mi
-  requestCpu: 10m
-  limitMemory: 40Mi
-  limitCpu: 40m
-  port: 3000
+  imagePullPolicy: Always
+  requestMemory: 150Mi
+  requestCpu: 120m
+  limitMemory: 150Mi
+  limitCpu: 180m
+  messageQueueHost: namespace.servicebus.windows.net
+  sendTopicAddress: ffc-pay-file-send
+  sendSubscriptionAddress: ffc-pay-file-publisher
+  azureStorageAccountName: ffcpay
+  azureStorageConnectionString: dummy
+  azureStorageUseConnectionString: false
+  azureStorageCreateContainers: false
+  daxStorageConnectionString: myconnectionstring
+  daxStorageShareName: dax
+  apFolder: AP
+  arFolder: AR
 
-livenessProbe:
-  path: /healthz
-  port: 3000
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  failureThreshold: 3
+aadPodIdentity: true
 
-readinessProbe:
-  path: /healthy
-  port: 3000
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  failureThreshold: 3
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
