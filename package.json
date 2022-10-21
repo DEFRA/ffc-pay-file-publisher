@@ -19,6 +19,7 @@
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
+    "@azure/identity": "3.0.0",
     "@azure/storage-blob": "12.9.0",
     "@azure/storage-file-share": "12.9.0",
     "applicationinsights": "2.2.1",
