@@ -36,13 +36,11 @@ const initialiseContainers = async () => {
 }
 
 const initialiseFolders = async () => {
-  console.log('Making sure folders exist')
   const placeHolderText = 'Placeholder'
   const outboundClient = container.getBlockBlobClient(`${config.outboundFolder}/default.txt`)
   const archiveClient = container.getBlockBlobClient(`${config.archiveFolder}/default.txt`)
   await outboundClient.upload(placeHolderText, placeHolderText.length)
   await archiveClient.upload(placeHolderText, placeHolderText.length)
-  console.log('Folders ready')
 }
 
 const getBlob = async (folder, filename) => {
