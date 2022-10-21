@@ -2,7 +2,7 @@ const Joi = require('joi')
 
 // Define config schema
 const schema = Joi.object({
-  totalRetries: Joi.boolean().default(10)
+  totalRetries: Joi.boolean().default(6)
 })
 
 // Build config

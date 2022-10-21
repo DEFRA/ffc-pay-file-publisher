@@ -6,19 +6,24 @@ const { AR } = require('./ledgers')
 
 let blobServiceClient
 let containersInitialised
+let container
+let shareServiceClient
+let share
 
-if (config.useConnectionStr) {
-  console.log('Using connection string for BlobServiceClient')
-  blobServiceClient = BlobServiceClient.fromConnectionString(config.connectionStr)
-} else {
-  console.log('Using DefaultAzureCredential for BlobServiceClient')
-  const uri = `https://${config.storageAccount}.blob.core.windows.net`
-  blobServiceClient = new BlobServiceClient(uri, new DefaultAzureCredential())
+const connect = () => {
+  if (config.useConnectionStr) {
+    console.log('Using connection string for BlobServiceClient')
+    blobServiceClient = BlobServiceClient.fromConnectionString(config.connectionStr)
+  } else {
+    console.log('Using DefaultAzureCredential for BlobServiceClient')
+    const uri = `https://${config.storageAccount}.blob.core.windows.net`
+    blobServiceClient = new BlobServiceClient(uri, new DefaultAzureCredential())
+  }
+
+  container = blobServiceClient.getContainerClient(config.container)
+  shareServiceClient = ShareServiceClient.fromConnectionString(config.shareConnectionString)
+  share = shareServiceClient.getShareClient(config.shareName)
 }
-
-const container = blobServiceClient.getContainerClient(config.container)
-const shareServiceClient = ShareServiceClient.fromConnectionString(config.shareConnectionString)
-const share = shareServiceClient.getShareClient(config.shareName)
 
 const initialiseContainers = async () => {
   if (config.createContainers) {
@@ -73,6 +78,7 @@ const getFolderName = (ledger) => {
 }
 
 module.exports = {
+  connect,
   getFile,
   writeFile,
   archiveFile
