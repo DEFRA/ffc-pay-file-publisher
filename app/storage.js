@@ -18,8 +18,6 @@ if (config.useConnectionStr) {
 }
 
 const container = blobServiceClient.getContainerClient(config.container)
-const shareServiceClient = ShareServiceClient.fromConnectionString(config.shareConnectionString)
-const share = shareServiceClient.getShareClient(config.shareName)
 
 const initialiseContainers = async () => {
   if (config.createContainers) {
@@ -54,6 +52,8 @@ const getFile = async (filename) => {
 }
 
 const writeFile = async (filename, ledger, content) => {
+  const shareServiceClient = ShareServiceClient.fromConnectionString(config.shareConnectionString)
+  const share = shareServiceClient.getShareClient(config.shareName)
   const folderName = getFolderName(ledger)
   const folder = share.getDirectoryClient(folderName)
 
