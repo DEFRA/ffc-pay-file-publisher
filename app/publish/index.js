@@ -1,9 +1,12 @@
-const transferFile = require('./transfer-file')
-const validateMessage = require('./validate-message')
+const getFile = require('./get-file')
+const storage = require('../storage')
 
 const publishFile = async (message) => {
-  await validateMessage(message)
-  await transferFile(message.filename, message.ledger)
+  const { filename, ledger } = message
+  const { blob, content } = await getFile(filename)
+  await storage.writeFile(filename, ledger, content)
+  await storage.archiveFile(filename, blob)
+  console.log(`Successfully publish ${filename} to ${ledger}`)
 }
 
 module.exports = publishFile

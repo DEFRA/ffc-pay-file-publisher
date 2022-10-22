@@ -1,4 +1,4 @@
-const schema = require('../messaging/schema')
+const schema = require('./schema')
 
 const validateMessage = async (message) => {
   const result = schema.validate(message, { abortEarly: false })
