@@ -24,3 +24,5 @@ services:
   ffc-pay-dax-azurite:
     image: mcr.microsoft.com/azure-storage/azurite:3.20.1
     command: "azurite-blob --loose --blobHost 0.0.0.0"
+    labels:
+      com.docker.compose.pay.role: ffc-pay-dax-azurite
