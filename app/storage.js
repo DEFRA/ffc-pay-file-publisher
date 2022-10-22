@@ -6,6 +6,7 @@ const { AR } = require('./ledgers')
 
 let blobServiceClient
 let containersInitialised
+let foldersInitialised
 
 if (config.useConnectionStr) {
   console.log('Using connection string for BlobServiceClient')
@@ -26,16 +27,17 @@ const initialiseContainers = async () => {
     await container.createIfNotExists()
     console.log('Containers ready')
   }
-  //await initialiseFolders()
+  foldersInitialised ?? await initialiseFolders()
   containersInitialised = true
 }
 
 const initialiseFolders = async () => {
+  console.log('Making sure folders exist')
   const placeHolderText = 'Placeholder'
   const outboundClient = container.getBlockBlobClient(`${config.outboundFolder}/default.txt`)
-  const archiveClient = container.getBlockBlobClient(`${config.archiveFolder}/default.txt`)
   await outboundClient.upload(placeHolderText, placeHolderText.length)
-  await archiveClient.upload(placeHolderText, placeHolderText.length)
+  foldersInitialised = true
+  console.log('Folders ready')
 }
 
 const getBlob = async (folder, filename) => {
