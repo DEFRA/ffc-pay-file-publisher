@@ -14,8 +14,6 @@ data:
   AZURE_STORAGE_CONNECTION_STRING: {{ quote .Values.container.azureStorageConnectionString }}
   AZURE_STORAGE_USE_CONNECTION_STRING: {{ quote .Values.container.azureStorageUseConnectionString }}
   AZURE_STORAGE_CREATE_CONTAINERS: {{ quote .Values.container.azureStorageCreateContainers }}
-  AZURE_STORAGE_CONTAINER: {{ quote .Values.container.storageContainer }}
-  AZURE_STORAGE_FOLDER: {{ quote .Values.container.storageFolder }}
   DAX_STORAGE_CONNECTION_STRING: {{ quote .Values.container.daxStorageConnectionString }}
   DAX_STORAGE_SHARE_NAME: {{ quote .Values.container.daxStorageShareName }}
   AP_FOLDER: {{ quote .Values.container.apFolder }}
