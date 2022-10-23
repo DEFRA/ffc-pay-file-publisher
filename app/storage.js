@@ -29,6 +29,8 @@ const initialiseContainers = async () => {
   containersInitialised = true
 }
 
+(async () => initialiseContainers())()
+
 const initialiseFolders = async () => {
   console.log('Making sure folders exist')
   const placeHolderText = 'Placeholder'
