@@ -4,7 +4,7 @@ FFC Pay service to transfer files from payment service to Dynamics 365 (DAX)
 
 This service is triggered from a service bus message requesting a file transfer from Azure Blob Storage to an Azure File Share.
 
-The message contains the name of the file that should already have been written to a `dax` blob container, in a virtual directory named `outbound`.  The message should also include the target ledger for DAX. ie, `AP` or `AR`.
+The message contains the name of the file that should already have been written to a `dax` blob container, in a virtual directory named `outbound`.  The message should also include the target ledger for DAX. ie, `AP` or `AR`.  If no ledger is specified, the default is `AP`.
 
 If the file is present, the file will be copied to the DAX file share and the original blob will be moved to an archive folder.
 
@@ -21,10 +21,47 @@ If the file is present, the file will be copied to the DAX file share and the or
 
 - Docker
 - Docker Compose
+- Azure Storage account
+  - Azure File Share
+- Azure Service Bus
 
 Optional:
 - Kubernetes
 - Helm
+
+## Configuration
+
+### Azure Service Bus
+
+This service depends on a valid Azure Service Bus connection string for
+asynchronous communication.  The following environment variables need to be set
+in any non-production (`!config.isProd`) environment before the Docker
+container is started or tests are run. 
+
+When deployed into an appropriately configured AKS
+cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
+configured) the microservice will use AAD Pod Identity through the manifests
+for
+[azure-identity](./helm/ffc-pay-batch-processor/templates/azure-identity.yaml)
+and
+[azure-identity-binding](./helm/ffc-pay-batch-processor/templates/azure-identity-binding.yaml).
+
+| Name | Description |
+| ---| --- |
+| MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
+| MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
+| MESSAGE_QUEUE_USER     | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey` |
+| MESSAGE_QUEUE_SUFFIX | Developer initials |
+
+### Azure Storage
+
+This service depends on a valid Azure Storage account connection string for
+accessing the Azure File Share.  The following environment variables need to be
+set in any environment before the Docker container is started.
+
+| Name | Description |
+| ---| --- |
+| DAX_STORAGE_CONNECTION_STRING | Azure Storage account connection string with file share |
 
 ## Running the application
 
