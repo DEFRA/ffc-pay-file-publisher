@@ -33,7 +33,6 @@ const mqResult = mqSchema.validate(mqConfig, {
   abortEarly: false
 })
 
-// Throw if config is invalid
 if (mqResult.error) {
   throw new Error(`The message queue config is invalid. ${mqResult.error.message}`)
 }
