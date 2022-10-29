@@ -1,44 +1,67 @@
-# FFC Template Node
+# FFC Pay File Publisher
 
-Template to support rapid delivery of microservices for FFC Platform. It contains the configuration needed to deploy a simple Hapi Node server to the Azure Kubernetes Platform.
+FFC Pay service to transfer files from payment service to Dynamics 365 (DAX)
 
-## Usage
+This service is triggered from a service bus message requesting a file transfer from Azure Blob Storage to an Azure File Share.
 
-Create a new repository from this template and run `./rename.js` specifying the new name of the project and the description to use e.g.
+The message contains the name of the file that should already have been written to a `dax` blob container, in a virtual directory named `outbound`.  The message should also include the target ledger for DAX. ie, `AP` or `AR`.  If no ledger is specified, the default is `AP`.
+
+If the file is present, the file will be copied to the DAX file share and the original blob will be moved to an archive folder.
+
+## Example message
+
 ```
-./rename.js ffc-demo-web "Web frontend for demo workstream"
+{ 
+  "filename": "PFELM0002_AP_20220312231958 (SITI).csv",
+  "ledger": "AP"
+}
 ```
-
-The script will update the following:
-
-* `package.json`: update `name`, `description`, `homepage`
-* `docker-compose.yaml`: update the service name, `image` and `container_name`
-* `docker-compose.test.yaml`: update the service name, `image` and `container_name`
-* `docker-compose.override.yaml`: update the service name, `image` and `container_name`
-* Rename `helm/ffc-template-node`
-* `helm/ffc-template-node/Chart.yaml`: update `description` and `name`
-* `helm/ffc-template-node/values.yaml`: update  `name`, `namespace`, `workstream`, `image`, `containerConfigMap.name`
-* `helm/ffc-template-node/templates/_container.yaml`: update the template name
-* `helm/ffc-template-node/templates/cluster-ip-service.yaml`: update the template name and list parameter of include
-* `helm/ffc-template-node/templates/config-map.yaml`: update the template name and list parameter of include
-* `helm/ffc-template-node/templates/deployment.yaml`: update the template name, list parameter of deployment and container includes
-
-### Notes on automated rename
-
-* The Helm chart deployment values in `helm/ffc-template-node/values.yaml` may need updating depending on the resource needs of your microservice
-* The rename is a one-way operation i.e. currently it doesn't allow the name being changed from to be specified
-* There is some validation on the input to try and ensure the rename is successful, however, it is unlikely to stand up to malicious entry
-* Once the rename has been performed the script can be removed from the repo
-* Should the rename go awry the changes can be reverted via `git clean -df && git checkout -- .`
 
 ## Prerequisites
 
 - Docker
 - Docker Compose
+- Azure Storage account
+  - Azure File Share
+- Azure Service Bus
 
 Optional:
 - Kubernetes
 - Helm
+
+## Configuration
+
+### Azure Service Bus
+
+This service depends on a valid Azure Service Bus connection string for
+asynchronous communication.  The following environment variables need to be set
+in any non-production (`!config.isProd`) environment before the Docker
+container is started or tests are run. 
+
+When deployed into an appropriately configured AKS
+cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
+configured) the microservice will use AAD Pod Identity through the manifests
+for
+[azure-identity](./helm/ffc-pay-batch-processor/templates/azure-identity.yaml)
+and
+[azure-identity-binding](./helm/ffc-pay-batch-processor/templates/azure-identity-binding.yaml).
+
+| Name | Description |
+| ---| --- |
+| MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
+| MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
+| MESSAGE_QUEUE_USER     | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey` |
+| MESSAGE_QUEUE_SUFFIX | Developer initials |
+
+### Azure Storage
+
+This service depends on a valid Azure Storage account connection string for
+accessing the Azure File Share.  The following environment variables need to be
+set in any environment before the Docker container is started.
+
+| Name | Description |
+| ---| --- |
+| DAX_STORAGE_CONNECTION_STRING | Azure Storage account connection string with file share |
 
 ## Running the application
 

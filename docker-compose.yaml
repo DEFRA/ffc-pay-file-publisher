@@ -1,10 +1,28 @@
 services:
-  ffc-template-node:
+  ffc-pay-file-publisher:
     build:
       context: .
       target: production
-    image: ffc-template-node
-    container_name: ffc-template-node
+    image: ffc-pay-file-publisher
+    container_name: ffc-pay-file-publisher
     environment:
-      APPINSIGHTS_CLOUDROLE: ffc-template-node-local
+      APPINSIGHTS_CLOUDROLE: ffc-pay-file-publisher-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+      MESSAGE_QUEUE_HOST: ${MESSAGE_QUEUE_HOST}
+      MESSAGE_QUEUE_PASSWORD: ${MESSAGE_QUEUE_PASSWORD}
+      MESSAGE_QUEUE_USER: ${MESSAGE_QUEUE_USER}
+      SEND_TOPIC_ADDRESS: ${SEND_TOPIC_ADDRESS:-ffc-pay-file-send}${MESSAGE_QUEUE_SUFFIX}
+      SEND_SUBSCRIPTION_ADDRESS: ${SEND_SUBSCRIPTION_ADDRESS:-ffc-pay-file-publisher}${MESSAGE_QUEUE_SUFFIX}
+      AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME:-devstoreaccount1}
+      AZURE_STORAGE_USE_CONNECTION_STRING: "true"
+      AZURE_STORAGE_CREATE_CONTAINERS: "true"
+      DAX_STORAGE_CONNECTION_STRING: ${DAX_STORAGE_CONNECTION_STRING}
+      DAX_STORAGE_SHARE_NAME: ${DAX_STORAGE_SHARE_NAME:-dax}
+      AP_FOLDER: ${AP_FOLDER:-AP}
+      AR_FOLDER: ${AR_FOLDER:-AR}
+
+  ffc-pay-dax-azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:3.17.1
+    command: "azurite-blob --loose --blobHost 0.0.0.0"
+    labels:
+      com.docker.compose.pay.role: ffc-pay-dax-azurite

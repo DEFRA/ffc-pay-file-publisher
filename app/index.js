@@ -1,13 +1,12 @@
-const server = require('./server')
+require('./insights').setup()
+require('log-timestamp')
+const messaging = require('./messaging')
 
-const init = async () => {
-  await server.start()
-  console.log('Server running on %s', server.info.uri)
-}
-
-process.on('unhandledRejection', (err) => {
-  console.log(err)
-  process.exit(1)
+process.on(['SIGTERM', 'SIGINT', 'SIGKILL'], async () => {
+  await messaging.stop()
+  process.exit(0)
 })
 
-init()
+module.exports = (async () => {
+  await messaging.start()
+})()

@@ -1,0 +1,2 @@
+{{- define "ffc-pay-file-publisher.container" -}}
+{{- end -}}

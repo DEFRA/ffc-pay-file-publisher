@@ -1,0 +1,48 @@
+environment: development
+environmentCode:
+name: ffc-pay-file-publisher
+namespace: ffc-pay
+workstream: ffc-pay
+image: ffc-pay-file-publisher
+
+labels: {}
+
+appInsights:
+  key:
+
+containerConfigMap:
+  name: ffc-pay-file-publisher-config-map
+
+containerSecret:
+  name: ffc-pay-file-publisher-container-secret
+  type: Opaque
+
+deployment:
+  restartPolicy: Always
+  priorityClassName: default
+  replicas: 1
+  minReadySeconds: 0
+
+container:
+  imagePullPolicy: Always
+  requestMemory: 150Mi
+  requestCpu: 120m
+  limitMemory: 150Mi
+  limitCpu: 180m
+  messageQueueHost: namespace.servicebus.windows.net
+  sendTopicAddress: ffc-pay-file-send
+  sendSubscriptionAddress: ffc-pay-file-publisher
+  azureStorageAccountName: ffcpay
+  azureStorageConnectionString: dummy
+  azureStorageUseConnectionString: false
+  azureStorageCreateContainers: false
+  daxStorageConnectionString: myconnectionstring
+  daxStorageShareName: dax
+  apFolder: AP
+  arFolder: AR
+
+aadPodIdentity: true
+
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
