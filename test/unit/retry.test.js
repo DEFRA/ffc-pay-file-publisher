@@ -1,4 +1,4 @@
-jest.mock('../../app/config/publish', () => ({ totalRetries: 1 }))
+jest.mock('../../app/config/publish', () => ({ totalRetries: 1, retryInterval: 1 }))
 const retry = require('../../app/retry')
 let mockFunction
 

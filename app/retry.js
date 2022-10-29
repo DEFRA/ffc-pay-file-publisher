@@ -1,6 +1,6 @@
-const { totalRetries } = require('./config/publish')
+const { totalRetries, retryInterval } = require('./config/publish')
 
-const retry = async (fn, retriesLeft = totalRetries, interval = 1000, exponential = true) => {
+const retry = async (fn, retriesLeft = totalRetries, interval = retryInterval, exponential = true) => {
   try {
     return (await fn())
   } catch (err) {
