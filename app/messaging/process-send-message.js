@@ -7,6 +7,7 @@ const processSendMessage = async (message, receiver) => {
     await publishFile(message.body)
     await receiver.completeMessage(message)
   } catch (err) {
+    await receiver.abandonMessage(message)
     console.error('Unable to process message:', err)
   }
 }
