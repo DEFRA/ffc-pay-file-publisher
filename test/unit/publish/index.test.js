@@ -43,6 +43,6 @@ describe('publish', () => {
   test('should log success message', async () => {
     console.log = jest.fn()
     await publish(message)
-    expect(console.log).toHaveBeenCalledWith(`Successfully publish ${FILE_NAME} to ${AP}`)
+    expect(console.log).toHaveBeenCalledWith(`Successfully published ${FILE_NAME} to ${AP}`)
   })
 })
