@@ -1,8 +1,8 @@
 const Joi = require('joi')
 
 const schema = Joi.object({
-  totalRetries: Joi.boolean().default(18),
-  retryInterval: Joi.number().default(10000)
+  totalRetries: Joi.boolean().default(5),
+  retryInterval: Joi.number().default(1000)
 })
 
 const config = {
