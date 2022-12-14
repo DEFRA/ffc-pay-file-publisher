@@ -53,7 +53,8 @@ let receiver
 describe('process send message', () => {
   beforeEach(() => {
     receiver = {
-      completeMessage: jest.fn()
+      completeMessage: jest.fn(),
+      abandonMessage: jest.fn()
     }
 
     message = {
@@ -152,5 +153,41 @@ describe('process send message', () => {
     mockBlob.upload.mockRejectedValue(new Error('error'))
     await processSendMessage(message, receiver)
     expect(receiver.completeMessage).not.toHaveBeenCalled()
+  })
+
+  test('abandons message if blob download fails', async () => {
+    mockBlob.downloadToBuffer.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(receiver.abandonMessage).toHaveBeenCalledWith(message)
+  })
+
+  test('abandons message if file upload fails', async () => {
+    mockFile.uploadRange.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(receiver.abandonMessage).toHaveBeenCalledWith(message)
+  })
+
+  test('abandons message if blob delete fails', async () => {
+    mockBlob.delete.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(receiver.abandonMessage).toHaveBeenCalledWith(message)
+  })
+
+  test('abandons message if file create fails', async () => {
+    mockFile.create.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(receiver.abandonMessage).toHaveBeenCalledWith(message)
+  })
+
+  test('abandons message if blob copy fails', async () => {
+    mockBlob.beginCopyFromURL.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(receiver.abandonMessage).toHaveBeenCalledWith(message)
+  })
+
+  test('abandons message if blob upload fails', async () => {
+    mockBlob.upload.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(receiver.abandonMessage).toHaveBeenCalledWith(message)
   })
 })
