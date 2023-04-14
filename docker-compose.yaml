@@ -22,7 +22,7 @@ services:
       AR_FOLDER: ${AR_FOLDER:-AR}
 
   ffc-pay-dax-azurite:
-    image: mcr.microsoft.com/azure-storage/azurite:3.17.1
+    image: mcr.microsoft.com/azure-storage/azurite:3.23.0
     command: "azurite-blob --loose --blobHost 0.0.0.0"
     labels:
       com.docker.compose.pay.role: ffc-pay-dax-azurite
