@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-file-publisher",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Publish payment files to DAX",
   "homepage": "https://github.com/DEFRA/ffc-pay-file-publisher",
   "main": "app/index.js",
@@ -15,7 +15,8 @@
   },
   "author": "Defra",
   "contributors": [
-    "John Watson john.watson2@rpa.gov.uk"
+    "John Watson john.watson2@rpa.gov.uk",
+    "Sam Plackett samuel.plackett@eviden.com"
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
