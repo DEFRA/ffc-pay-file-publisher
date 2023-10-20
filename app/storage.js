@@ -2,7 +2,7 @@ const { BlobServiceClient } = require('@azure/storage-blob')
 const { ShareServiceClient } = require('@azure/storage-file-share')
 const { DefaultAzureCredential } = require('@azure/identity')
 const config = require('./config/storage')
-const { AR } = require('./ledgers')
+const { AR, DPS } = require('./ledgers')
 
 let blobServiceClient
 let containersInitialised
@@ -72,7 +72,13 @@ const archiveFile = async (filename, blob) => {
 }
 
 const getFolderName = (ledger) => {
-  return ledger === AR ? config.arFolder : config.apFolder
+  if (ledger === AR) {
+    return config.arFolder
+  }
+  if (ledger === DPS) {
+    return config.dpsFolder
+  }
+  return config.apFolder
 }
 
 module.exports = {

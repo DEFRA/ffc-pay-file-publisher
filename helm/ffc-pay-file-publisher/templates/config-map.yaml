@@ -18,4 +18,5 @@ data:
   DAX_STORAGE_SHARE_NAME: {{ quote .Values.container.daxStorageShareName }}
   AP_FOLDER: {{ quote .Values.container.apFolder }}
   AR_FOLDER: {{ quote .Values.container.arFolder }}
+  DPS_FOLDER: {{ quote .Values.container.dpsFolder }}
 {{- end -}}

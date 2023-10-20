@@ -20,6 +20,7 @@ services:
       DAX_STORAGE_SHARE_NAME: ${DAX_STORAGE_SHARE_NAME:-integrations}
       AP_FOLDER: ${AP_FOLDER:-AP}
       AR_FOLDER: ${AR_FOLDER:-AR}
+      DPS_FOLDER: ${DPS_FOLDER:-DPS}
 
   ffc-pay-dax-azurite:
     image: mcr.microsoft.com/azure-storage/azurite:3.23.0

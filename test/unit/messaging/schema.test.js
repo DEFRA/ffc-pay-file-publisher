@@ -1,4 +1,4 @@
-const { AP, AR } = require('../../../app/ledgers')
+const { AP, AR, DPS } = require('../../../app/ledgers')
 const schema = require('../../../app/messaging/schema')
 let message
 
@@ -19,6 +19,12 @@ describe('messaging schema', () => {
 
   test('should include error when the message is valid and ledger AR', () => {
     message.ledger = AR
+    const result = schema.validate(message)
+    expect(result.error).toBeUndefined()
+  })
+
+  test('should include error when the message is valid and ledger DPS', () => {
+    message.ledger = DPS
     const result = schema.validate(message)
     expect(result.error).toBeUndefined()
   })
