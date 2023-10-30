@@ -35,6 +35,7 @@ container:
   daxStorageShareName: integrations
   apFolder: AP
   arFolder: AR
+  dpsFolder: dps
 
 aadPodIdentity: true
 

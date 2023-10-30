@@ -19,4 +19,4 @@ components:
             description: Filename to transfer to DAX
           ledger:
             type: string
-            description: AP or AR.  If not supplied will route to AP
+            description: AP, AR or DPS.  If not supplied will route to AP

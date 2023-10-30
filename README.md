@@ -4,7 +4,7 @@ FFC Pay service to transfer files from payment service to Dynamics 365 (DAX)
 
 This service is triggered from a service bus message requesting a file transfer from Azure Blob Storage to an Azure File Share.
 
-The message contains the name of the file that should already have been written to a `dax` blob container, in a virtual directory named `outbound`.  The message should also include the target ledger for DAX. ie, `AP` or `AR`.  If no ledger is specified, the default is `AP`.
+The message contains the name of the file that should already have been written to a `dax` blob container, in a virtual directory named `outbound`.  The message should also include the target ledger for DAX. ie, `AP`, `AR` or `DPS`.  If no ledger is specified, the default is `AP`.
 
 If the file is present, the file will be copied to the DAX file share and the original blob will be moved to an archive folder.
 

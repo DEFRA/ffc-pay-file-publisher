@@ -1,4 +1,5 @@
 module.exports = {
   AP: 'AP',
-  AR: 'AR'
+  AR: 'AR',
+  DPS: 'DPS'
 }

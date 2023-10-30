@@ -1,4 +1,4 @@
-const { AP, AR } = require('../../../app/ledgers')
+const { AP, AR, DPS } = require('../../../app/ledgers')
 const validateMessage = require('../../../app/messaging/validate-message')
 
 describe('validate message', () => {
@@ -14,6 +14,14 @@ describe('validate message', () => {
     const message = {
       filename: 'test.txt',
       ledger: AR
+    }
+    expect(() => validateMessage(message)).not.toThrow()
+  })
+
+  test('should not throw an error when the message is valid and ledger DPS', () => {
+    const message = {
+      filename: 'test.txt',
+      ledger: DPS
     }
     expect(() => validateMessage(message)).not.toThrow()
   })

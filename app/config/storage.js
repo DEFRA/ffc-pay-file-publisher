@@ -11,7 +11,8 @@ const schema = Joi.object({
   shareConnectionString: Joi.string().required(),
   shareName: Joi.string().required(),
   apFolder: Joi.string().required(),
-  arFolder: Joi.string().required()
+  arFolder: Joi.string().required(),
+  dpsFolder: Joi.string().required()
 })
 
 const config = {
@@ -25,7 +26,8 @@ const config = {
   shareConnectionString: process.env.DAX_STORAGE_CONNECTION_STRING,
   shareName: process.env.DAX_STORAGE_SHARE_NAME,
   apFolder: process.env.AP_FOLDER,
-  arFolder: process.env.AR_FOLDER
+  arFolder: process.env.AR_FOLDER,
+  dpsFolder: process.env.DPS_FOLDER
 }
 
 const result = schema.validate(config, {
