@@ -52,19 +52,14 @@ const getFile = async (filename) => {
 }
 
 const writeFile = async (filename, ledger, content) => {
-  try {
-    const shareServiceClient = ShareServiceClient.fromConnectionString(config.shareConnectionString)
-    const share = shareServiceClient.getShareClient(config.shareName)
-    const folderName = getFolderName(ledger)
-    const folder = share.getDirectoryClient(folderName)
+  const shareServiceClient = ShareServiceClient.fromConnectionString(config.shareConnectionString)
+  const share = shareServiceClient.getShareClient(config.shareName)
+  const folderName = getFolderName(ledger)
+  const folder = share.getDirectoryClient(folderName)
 
-    const file = folder.getFileClient(filename)
-    await file.create(content.length)
-    await file.uploadRange(content, 0, content.length)
-    return true
-  } catch (err) {
-    return err
-  }
+  const file = folder.getFileClient(filename)
+  await file.create(content.length)
+  await file.uploadRange(content, 0, content.length)
 }
 
 const archiveFile = async (filename, blob) => {

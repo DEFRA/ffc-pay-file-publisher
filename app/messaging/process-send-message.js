@@ -1,5 +1,6 @@
 const publishFile = require('../publish')
 const validateMessage = require('./validate-message')
+const { sendProcessFailureEvent } = require('../event')
 
 const processSendMessage = async (message, receiver) => {
   try {
@@ -8,6 +9,7 @@ const processSendMessage = async (message, receiver) => {
     await receiver.completeMessage(message)
   } catch (err) {
     console.error('Unable to process message:', err)
+    await sendProcessFailureEvent(message.body.filename, err)
   }
 }
 
