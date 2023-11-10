@@ -1,4 +1,6 @@
 jest.mock('../../../app/config/publish', () => ({ totalRetries: 1 }))
+jest.mock('../../../app/event/send-process-failure-event')
+const mockSendProcessFailureEvent = require('../../../app/event/send-process-failure-event')
 const config = require('../../../app/config/storage')
 const mockContent = 'content'
 const mockGetContainerClient = jest.fn()
@@ -152,5 +154,41 @@ describe('process send message', () => {
     mockBlob.upload.mockRejectedValue(new Error('error'))
     await processSendMessage(message, receiver)
     expect(receiver.completeMessage).not.toHaveBeenCalled()
+  })
+
+  test('triggers send process failure event if blob download fails', async () => {
+    mockBlob.downloadToBuffer.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(mockSendProcessFailureEvent).toHaveBeenCalled()
+  })
+
+  test('triggers send process failure event if file upload fails', async () => {
+    mockFile.uploadRange.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(mockSendProcessFailureEvent).toHaveBeenCalled()
+  })
+
+  test('triggers send process failure event if blob delete fails', async () => {
+    mockBlob.delete.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(mockSendProcessFailureEvent).toHaveBeenCalled()
+  })
+
+  test('triggers send process failure event if file create fails', async () => {
+    mockFile.create.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(mockSendProcessFailureEvent).toHaveBeenCalled()
+  })
+
+  test('triggers send process failure event if blob copy fails', async () => {
+    mockBlob.beginCopyFromURL.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(mockSendProcessFailureEvent).toHaveBeenCalled()
+  })
+
+  test('triggers send process failure event if blob upload fails', async () => {
+    mockBlob.upload.mockRejectedValue(new Error('error'))
+    await processSendMessage(message, receiver)
+    expect(mockSendProcessFailureEvent).toHaveBeenCalled()
   })
 })
