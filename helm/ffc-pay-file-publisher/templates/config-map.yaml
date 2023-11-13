@@ -6,8 +6,10 @@ data:
   MESSAGE_QUEUE_HOST: {{ quote .Values.container.messageQueueHost }}
   {{- if and (.Values.environmentCode) (not .Values.pr) }}
   SEND_TOPIC_ADDRESS: {{ .Values.container.sendTopicAddress }}-{{ .Values.environmentCode }}
+  EVENTS_TOPIC_ADDRESS: {{ .Values.container.eventsTopicAddress }}-{{ .Values.environmentCode }}
   {{ else }}
   SEND_TOPIC_ADDRESS: {{ quote .Values.container.sendTopicAddress }}
+  EVENTS_TOPIC_ADDRESS: {{ quote .Values.container.eventsTopicAddress }}
   {{- end }}
   SEND_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.sendSubscriptionAddress }}  
   AZURE_STORAGE_ACCOUNT_NAME: {{ quote .Values.container.azureStorageAccountName }}
@@ -19,4 +21,5 @@ data:
   AP_FOLDER: {{ quote .Values.container.apFolder }}
   AR_FOLDER: {{ quote .Values.container.arFolder }}
   DPS_FOLDER: {{ quote .Values.container.dpsFolder }}
+  USE_EVENTS: {{ quote .Values.container.useEvents }}
 {{- end -}}

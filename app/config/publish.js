@@ -2,12 +2,14 @@ const Joi = require('joi')
 
 const schema = Joi.object({
   totalRetries: Joi.boolean().default(5),
-  retryInterval: Joi.number().default(1000)
+  retryInterval: Joi.number().default(1000),
+  useEvents: Joi.boolean().default(true)
 })
 
 const config = {
   totalRetries: process.env.TOTAL_RETRIES,
-  retryInterval: process.env.RETRY_INTERVAL
+  retryInterval: process.env.RETRY_INTERVAL,
+  useEvents: process.env.USE_EVENTS
 }
 
 const result = schema.validate(config, {
