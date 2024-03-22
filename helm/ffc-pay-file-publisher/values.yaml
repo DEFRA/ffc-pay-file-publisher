@@ -38,6 +38,7 @@ container:
   dpsFolder: dps
   eventsTopicAddress: ffc-pay-events
   useEvents: true
+  filePublishEnabled: true
 
 aadPodIdentity: true
 

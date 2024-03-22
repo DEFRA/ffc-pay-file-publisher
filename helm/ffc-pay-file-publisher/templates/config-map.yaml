@@ -22,4 +22,5 @@ data:
   AR_FOLDER: {{ quote .Values.container.arFolder }}
   DPS_FOLDER: {{ quote .Values.container.dpsFolder }}
   USE_EVENTS: {{ quote .Values.container.useEvents }}
+  FILE_PUBLISH_ENABLED: {{ quote .Values.container.filePublishEnabled }}
 {{- end -}}
