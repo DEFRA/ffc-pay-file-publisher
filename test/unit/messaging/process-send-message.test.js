@@ -1,4 +1,4 @@
-jest.mock('../../../app/config/publish', () => ({ totalRetries: 1 }))
+jest.mock('../../../app/config/publish', () => ({ totalRetries: 1, enabled: true }))
 jest.mock('../../../app/event/send-process-failure-event')
 const mockSendProcessFailureEvent = require('../../../app/event/send-process-failure-event')
 const config = require('../../../app/config/storage')
@@ -190,5 +190,12 @@ describe('process send message', () => {
     mockBlob.upload.mockRejectedValue(new Error('error'))
     await processSendMessage(message, receiver)
     expect(mockSendProcessFailureEvent).toHaveBeenCalled()
+  })
+
+  test('does not call publishFile if enabled is false', async () => {
+    const mockPublishFile = jest.fn()
+    jest.mock('../../../app/config/publish', () => ({ enabled: false }))
+    await processSendMessage(message, receiver)
+    expect(mockPublishFile).not.toHaveBeenCalled()
   })
 })
