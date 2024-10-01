@@ -11,5 +11,4 @@ const setup = () => {
     console.log('App Insights not running')
   }
 }
-
 module.exports = { setup }
