@@ -22,7 +22,7 @@
   "dependencies": {
     "@azure/identity": "^4.4.1",
     "@azure/storage-blob": "12.24.0",
-    "@azure/storage-file-share": "12.13.0",
+    "@azure/storage-file-share": "12.26.0",
     "applicationinsights": "2.9.6",
     "ffc-messaging": "^2.10.1",
     "ffc-pay-event-publisher": "1.2.0",
