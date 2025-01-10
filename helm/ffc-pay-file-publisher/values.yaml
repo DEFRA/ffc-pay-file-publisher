@@ -8,7 +8,7 @@ image: ffc-pay-file-publisher
 labels: {}
 
 appInsights:
-  key:
+  connectionString:
 
 containerConfigMap:
   name: ffc-pay-file-publisher-config-map
