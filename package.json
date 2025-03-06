@@ -17,7 +17,8 @@
   "contributors": [
     "John Watson john.watson2@rpa.gov.uk",
     "Sam Plackett samuel.plackett@eviden.com",
-    "Leigh Godson leigh.godson.external@eviden.com"
+    "Leigh Godson leigh.godson.external@eviden.com",
+    "Oliver Lewington oliver.lewington@eviden.com"
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {

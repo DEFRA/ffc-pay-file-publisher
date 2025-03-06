@@ -1,3 +1,5 @@
 resources:
+  identity: pay-file-publisher
   topics:
-    - name: send
+    - name: ffc-pay-events
+      role: sender
