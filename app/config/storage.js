@@ -12,7 +12,8 @@ const schema = Joi.object({
   shareName: Joi.string().required(),
   apFolder: Joi.string().required(),
   arFolder: Joi.string().required(),
-  dpsFolder: Joi.string().required()
+  dpsFolder: Joi.string().required(),
+  managedIdentityClientId: Joi.string().optional()
 })
 
 const config = {
@@ -27,7 +28,8 @@ const config = {
   shareName: process.env.DAX_STORAGE_SHARE_NAME,
   apFolder: process.env.AP_FOLDER,
   arFolder: process.env.AR_FOLDER,
-  dpsFolder: process.env.DPS_FOLDER
+  dpsFolder: process.env.DPS_FOLDER,
+  managedIdentityClientId: process.env.AZURE_CLIENT_ID
 }
 
 const result = schema.validate(config, {

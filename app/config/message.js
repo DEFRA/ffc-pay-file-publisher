@@ -1,20 +1,21 @@
-const joi = require('joi')
+const Joi = require('joi')
 
-const mqSchema = joi.object({
+const mqSchema = Joi.object({
   messageQueue: {
-    host: joi.string(),
-    username: joi.string(),
-    password: joi.string(),
-    useCredentialChain: joi.bool().default(false),
-    type: joi.string().default('subscription'),
-    appInsights: joi.object()
+    host: Joi.string(),
+    username: Joi.string(),
+    password: Joi.string(),
+    useCredentialChain: Joi.bool().default(false),
+    type: Joi.string().default('subscription'),
+    appInsights: Joi.object(),
+    managedIdentityClientId: Joi.string().optional()
   },
   sendSubscription: {
-    address: joi.string(),
-    topic: joi.string()
+    address: Joi.string(),
+    topic: Joi.string()
   },
   eventsTopic: {
-    address: joi.string()
+    address: Joi.string()
   }
 })
 const mqConfig = {
@@ -24,7 +25,8 @@ const mqConfig = {
     password: process.env.MESSAGE_QUEUE_PASSWORD,
     useCredentialChain: process.env.NODE_ENV === 'production',
     type: 'subscription',
-    appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
+    appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined,
+    managedIdentityClientId: process.env.AZURE_CLIENT_ID
   },
   sendSubscription: {
     address: process.env.SEND_SUBSCRIPTION_ADDRESS,
