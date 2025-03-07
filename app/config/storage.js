@@ -12,7 +12,7 @@ const schema = Joi.object({
   shareName: Joi.string().required(),
   apFolder: Joi.string().required(),
   arFolder: Joi.string().required(),
-  dpsFolder: Joi.string().required()
+  dpsFolder: Joi.string().required(),
   managedIdentityClientId: Joi.string().optional()
 })
 
