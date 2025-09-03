@@ -12,14 +12,14 @@ describe('get file', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    mockRetry.mockImplementation((fn) => fn())
+    mockRetry.mockImplementation((fn, filename) => fn(filename, false))
 
     mockStorage.getFile.mockResolvedValue(FILE_CONTENT)
   })
 
   test('should get file with filename from storage', async () => {
     await getFile(FILE_NAME)
-    expect(mockStorage.getFile).toHaveBeenCalledWith(FILE_NAME)
+    expect(mockStorage.getFile).toHaveBeenCalledWith(FILE_NAME, false)
   })
 
   test('should return file content', async () => {
