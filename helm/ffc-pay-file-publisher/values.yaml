@@ -17,7 +17,8 @@ containerSecret:
   name: ffc-pay-file-publisher-container-secret
   type: Opaque
 
-deployment: {}
+deployment:
+  priorityClassName: high
 
 container:
   requestMemory: 150Mi
