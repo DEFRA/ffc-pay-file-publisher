@@ -4,18 +4,21 @@ const { DefaultAzureCredential } = require('@azure/identity')
 const config = require('./config/storage')
 const { AR, DPS } = require('./ledgers')
 
-let blobServiceClient
 let containersInitialised
 let foldersInitialised
 
-if (config.useConnectionStr) {
-  console.log('Using connection string for BlobServiceClient')
-  blobServiceClient = BlobServiceClient.fromConnectionString(config.connectionStr)
-} else {
-  console.log('Using DefaultAzureCredential for BlobServiceClient')
-  const uri = `https://${config.storageAccount}.blob.core.windows.net`
-  blobServiceClient = new BlobServiceClient(uri, new DefaultAzureCredential({ managedIdentityClientId: config.managedIdentityClientId }))
+const createBlobServiceClient = () => {
+  if (config.useConnectionStr) {
+    console.log('Using connection string for BlobServiceClient')
+    return BlobServiceClient.fromConnectionString(config.connectionStr)
+  } else {
+    console.log('Using DefaultAzureCredential for BlobServiceClient')
+    const uri = `https://${config.storageAccount}.blob.core.windows.net`
+    return new BlobServiceClient(uri, new DefaultAzureCredential({ managedIdentityClientId: config.managedIdentityClientId }))
+  }
 }
+
+const blobServiceClient = createBlobServiceClient()
 
 const container = blobServiceClient.getContainerClient(config.container)
 
@@ -38,14 +41,20 @@ const initialiseFolders = async () => {
   console.log('Folders ready')
 }
 
-const getBlob = async (folder, filename) => {
+const getBlob = async (folder, filename, forceFresh = false) => {
+  if (forceFresh) {
+    const freshBlobServiceClient = createBlobServiceClient()
+    const containerClient = freshBlobServiceClient.getContainerClient(config.container)
+    return containerClient.getBlockBlobClient(`${folder}/${filename}`)
+  }
+
   containersInitialised ?? await initialiseContainers()
   return container.getBlockBlobClient(`${folder}/${filename}`)
 }
 
-const getFile = async (filename) => {
+const getFile = async (filename, forceFresh = false) => {
   console.log(`Searching for ${filename} in ${config.outboundFolder}`)
-  const blob = await getBlob(config.outboundFolder, filename)
+  const blob = await getBlob(config.outboundFolder, filename, forceFresh)
   const downloaded = await blob.downloadToBuffer()
   console.log(`Found ${filename}`)
   return { blob, content: downloaded.toString() }
