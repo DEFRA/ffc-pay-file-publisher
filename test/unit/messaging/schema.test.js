@@ -1,67 +1,45 @@
 const { AP, AR, DPS } = require('../../../app/ledgers')
 const schema = require('../../../app/messaging/schema')
-let message
 
 const FILE_NAME = 'filename.csv'
+let message
 
 describe('messaging schema', () => {
   beforeEach(() => {
-    message = {
-      filename: FILE_NAME,
-      ledger: AP
-    }
+    message = { filename: FILE_NAME, ledger: AP }
   })
 
-  test('should include error when the message is valid and ledger AP', () => {
+  test.each([AP, AR, DPS])('validates message with ledger %s', (ledger) => {
+    message.ledger = ledger
     const result = schema.validate(message)
     expect(result.error).toBeUndefined()
   })
 
-  test('should include error when the message is valid and ledger AR', () => {
-    message.ledger = AR
-    const result = schema.validate(message)
-    expect(result.error).toBeUndefined()
-  })
-
-  test('should include error when the message is valid and ledger DPS', () => {
-    message.ledger = DPS
-    const result = schema.validate(message)
-    expect(result.error).toBeUndefined()
-  })
-
-  test('should include error when ledger missing', () => {
+  test('validates message when ledger is missing', () => {
     delete message.ledger
     const result = schema.validate(message)
     expect(result.error).toBeUndefined()
   })
 
-  test('should include error when ledger is invalid', () => {
+  test('sets ledger to AP if missing', () => {
+    delete message.ledger
+    const result = schema.validate(message)
+    expect(result.value.ledger).toBe(AP)
+  })
+
+  test('invalid ledger triggers error', () => {
     message.ledger = 'invalid'
     const result = schema.validate(message)
     expect(result.error).toBeDefined()
   })
 
-  test('should include error when filename missing', () => {
-    delete message.filename
+  test.each([
+    ['filename missing', () => delete message.filename],
+    ['filename not a string', () => { message.filename = 123 }],
+    ['filename empty', () => { message.filename = '' }]
+  ])('%s triggers error', (_, mutate) => {
+    mutate()
     const result = schema.validate(message)
     expect(result.error).toBeDefined()
-  })
-
-  test('should include error when filename is invalid', () => {
-    message.filename = 123
-    const result = schema.validate(message)
-    expect(result.error).toBeDefined()
-  })
-
-  test('should include error when filename is empty', () => {
-    message.filename = ''
-    const result = schema.validate(message)
-    expect(result.error).toBeDefined()
-  })
-
-  test('should set ledger to AP if missing', () => {
-    delete message.ledger
-    const result = schema.validate(message)
-    expect(result.value.ledger).toBe(AP)
   })
 })
