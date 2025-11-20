@@ -2,57 +2,31 @@ const { AP, AR, DPS } = require('../../../app/ledgers')
 const validateMessage = require('../../../app/messaging/validate-message')
 
 describe('validate message', () => {
-  test('should not throw an error when the message is valid and ledger AP', () => {
-    const message = {
-      filename: 'test.txt',
-      ledger: AP
+  const validFilename = 'test.txt'
+
+  test.each([AP, AR, DPS])(
+    'does not throw for valid message with ledger %s',
+    (ledger) => {
+      const message = { filename: validFilename, ledger }
+      expect(() => validateMessage(message)).not.toThrow()
     }
+  )
+
+  test('does not throw when ledger is missing', () => {
+    const message = { filename: validFilename }
     expect(() => validateMessage(message)).not.toThrow()
   })
 
-  test('should not throw an error when the message is valid and ledger AR', () => {
-    const message = {
-      filename: 'test.txt',
-      ledger: AR
-    }
-    expect(() => validateMessage(message)).not.toThrow()
-  })
-
-  test('should not throw an error when the message is valid and ledger DPS', () => {
-    const message = {
-      filename: 'test.txt',
-      ledger: DPS
-    }
-    expect(() => validateMessage(message)).not.toThrow()
-  })
-
-  test('should not throw an error when ledger missing', () => {
-    const message = {
-      filename: 'test.txt'
-    }
-    expect(() => validateMessage(message)).not.toThrow()
-  })
-
-  test('should throw an error when ledger is invalid', () => {
-    const message = {
-      filename: 'test.txt',
-      ledger: 'invalid'
-    }
+  test('throws for invalid ledger', () => {
+    const message = { filename: validFilename, ledger: 'invalid' }
     expect(() => validateMessage(message)).toThrow()
   })
 
-  test('should throw an error when filename missing', () => {
-    const message = {
-      ledger: AP
-    }
-    expect(() => validateMessage(message)).toThrow()
-  })
-
-  test('should throw an error when filename is invalid', () => {
-    const message = {
-      filename: 123,
-      ledger: AP
-    }
+  test.each([
+    ['missing filename', () => ({ ledger: AP })],
+    ['filename not a string', () => ({ filename: 123, ledger: AP })]
+  ])('throws when %s', (_, getMessage) => {
+    const message = getMessage()
     expect(() => validateMessage(message)).toThrow()
   })
 })

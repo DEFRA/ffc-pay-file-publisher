@@ -1,20 +1,15 @@
 const mockPublishEvent = jest.fn()
 
-const MockEventPublisher = jest.fn().mockImplementation(() => {
-  return {
-    publishEvent: mockPublishEvent
-  }
-})
+const MockEventPublisher = jest.fn().mockImplementation(() => ({
+  publishEvent: mockPublishEvent
+}))
 
-jest.mock('ffc-pay-event-publisher', () => {
-  return {
-    EventPublisher: MockEventPublisher
-  }
-})
+jest.mock('ffc-pay-event-publisher', () => ({
+  EventPublisher: MockEventPublisher
+}))
 
 const messagingConfig = require('../../../app/config/message')
 const publishConfig = require('../../../app/config/publish')
-
 const sendProcessFailureEvent = require('../../../app/event/send-process-failure-event')
 
 let error
@@ -22,17 +17,12 @@ const filename = 'FFCSFI_0001_AP_20231109165324 (SITI_SFI).csv'
 
 describe('Error event', () => {
   beforeEach(() => {
-    error = {
-      message: 'Cannot reach DAX'
-    }
-
+    error = { message: 'Cannot reach DAX' }
     publishConfig.useEvents = true
     messagingConfig.eventsTopic = 'events'
   })
 
-  afterEach(() => {
-    jest.clearAllMocks()
-  })
+  afterEach(() => jest.clearAllMocks())
 
   test('should send event if events enabled', async () => {
     await sendProcessFailureEvent(filename, error)
@@ -45,23 +35,19 @@ describe('Error event', () => {
     expect(mockPublishEvent).not.toHaveBeenCalled()
   })
 
-  test('should send event to topic', async () => {
+  test('should send event to correct topic', async () => {
     await sendProcessFailureEvent(filename, error)
-    expect(MockEventPublisher.mock.calls[0][0]).toBe(messagingConfig.eventsTopic)
+    expect(MockEventPublisher).toHaveBeenCalledWith(messagingConfig.eventsTopic)
   })
 
-  test('should raise an event with file-publisher source', async () => {
+  test.each([
+    ['source', 'ffc-pay-file-publisher'],
+    ['type', 'uk.gov.defra.ffc.pay.warning.dax.unavailable'],
+    ['data.message', 'Cannot reach DAX']
+  ])('should set event %s correctly', async (prop, expected) => {
     await sendProcessFailureEvent(filename, error)
-    expect(mockPublishEvent.mock.calls[0][0].source).toBe('ffc-pay-file-publisher')
-  })
-
-  test('should raise dax rejected event type', async () => {
-    await sendProcessFailureEvent(filename, error)
-    expect(mockPublishEvent.mock.calls[0][0].type).toBe('uk.gov.defra.ffc.pay.warning.dax.unavailable')
-  })
-
-  test('should include error message in event data', async () => {
-    await sendProcessFailureEvent(filename, error)
-    expect(mockPublishEvent.mock.calls[0][0].data.message).toBe(error.message)
+    const eventArg = mockPublishEvent.mock.calls[0][0]
+    const actual = prop.split('.').reduce((obj, key) => obj[key], eventArg)
+    expect(actual).toBe(expected)
   })
 })
