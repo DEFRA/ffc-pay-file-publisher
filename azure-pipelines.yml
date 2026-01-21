@@ -1,0 +1,37 @@
+name: '$(Build.SourceBranchName)$(System.PullRequest.SourceBranch)$(Rev:.r)'
+
+trigger:
+  - main
+  - feature/*
+  - release/*
+
+pr:
+  - main
+  - releases/*
+
+parameters:
+  - name: prDeployment
+    type: boolean
+    default: true
+  - name: branchDeployment
+    type: boolean
+    default: true
+  - name: sndDeployment
+    type: boolean
+    default: true
+
+resources:
+  repositories:
+    - repository: templates
+      endpoint: DEFRA
+      type: github
+      name: defra/fcp-pipeline-common
+      # ref: branch-name
+
+extends:
+  template: fcp-common-pipeline.yaml@templates
+  parameters:
+    appFrameworkType: nodejs
+    prDeployment: ${{ parameters.prDeployment }}
+    branchDeployment: ${{ parameters.branchDeployment }}
+    sndDeployment: ${{ parameters.sndDeployment }}
