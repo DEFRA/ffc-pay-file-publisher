@@ -1,0 +1,11 @@
+---
+environment: production
+environmentCode: snd2
+pr: true
+container:
+  azureStorageAccountName: snd2ffcdocst2001
+  messageQueueHost: queue:SNDFFCINFSB2001.servicebus.windows.net
+  redisHostname: SNDFFCINFRD2001.redis.cache.windows.net
+ingress:
+  server: azure.defra.cloud
+  endpoint: ffc-pay-file-publisher-snd2
