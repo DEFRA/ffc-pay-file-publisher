@@ -55,7 +55,7 @@ secretProviderClass:
         objectType: secret
 
   secretObjects: # creating a Kubernetes secret from the Azure Key Vault secrets
-    - secretName: ffc-doc-statement-receiver
+    - secretName: ffc-doc-statement-publisher
       type: Opaque
       data:
         - objectName: appInsights-connectionString # secret name in Azure Key Vault
