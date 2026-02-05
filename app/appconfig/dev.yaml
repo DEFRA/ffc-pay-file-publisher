@@ -2,7 +2,7 @@
 environment: production
 environmentCode: dev
 container:
-  azureStorageAccountName: devffcdocst1001
+  azureStorageAccountName: devffcpayst1001
   messageQueueHost: DEVFFCINFSB1001.servicebus.windows.net
   redisHostname: DEVFFCINFRD1001.redis.cache.windows.net
 secretProviderClass:
