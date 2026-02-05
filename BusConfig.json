@@ -4,7 +4,24 @@
       {
         "Name": "sbemulatorns",
         "Queues": [],
-        "Topics": []
+        "Topics": [
+          {
+            "Name": "ffc-pay-file-send",
+            "Properties": {
+              "DefaultMessageTimeToLive": "PT1H",
+              "DuplicateDetectionHistoryTimeWindow": "PT20S",
+              "RequiresDuplicateDetection": false
+            }
+          },
+          {
+            "Name": "ffc-pay-events",
+            "Properties": {
+              "DefaultMessageTimeToLive": "PT1H",
+              "DuplicateDetectionHistoryTimeWindow": "PT20S",
+              "RequiresDuplicateDetection": false
+            }
+          }
+        ]
       } 
     ],
     "Logging": {
