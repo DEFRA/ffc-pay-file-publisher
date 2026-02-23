@@ -1,6 +1,6 @@
 ---
 environment: production
-environmentCode: snd2
+environmentCode: snd
 pr: true
 container:
   azureStorageAccountName: snd2ffcdocst2001
