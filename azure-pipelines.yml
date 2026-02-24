@@ -35,3 +35,4 @@ extends:
     prDeployment: ${{ parameters.prDeployment }}
     branchDeployment: ${{ parameters.branchDeployment }}
     sndDeployment: ${{ parameters.sndDeployment }}
+    failOnThreshold: moderate  # Optional: moderate (default), low, high, critical
