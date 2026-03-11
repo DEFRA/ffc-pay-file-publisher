@@ -14,6 +14,8 @@ secretProviderClass:
     objects:
       - objectName: prd-ffcahwr-appinsights-connectionString
         objectType: secret
+      - objectName: prd-ffcpayDaxStorageConnectionString
+        objectType: secret
 
   secretObjects:
     - secretName: ffc-pay-file-publisher
@@ -21,3 +23,5 @@ secretProviderClass:
       data:
         - objectName: prd-ffcahwr-appinsights-connectionString
           key: APPINSIGHTS_CONNECTIONSTRING
+        - objectName: prd-ffcpayDaxStorageConnectionString
+          key: DAX_STORAGE_CONNECTION_STRING
