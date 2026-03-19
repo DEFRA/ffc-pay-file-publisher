@@ -5,9 +5,6 @@ container:
   messageQueueHost: PRDFFCINFSB1001.servicebus.windows.net
   azureStorageAccountName: prdffcpayst1001
   redisHostname: PRDFFCINFRD1001.redis.cache.windows.net
-ingress:
-  server: azure.defra.cloud
-  endpoint: ffc-pay-file-publisher-prd
 secretProviderClass:
   azure:
     keyvaultName: PRDFFCINFKV1001

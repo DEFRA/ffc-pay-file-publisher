@@ -7,6 +7,3 @@ container:
   redisHostname: SNDFFCINFRD2001.redis.cache.windows.net
   sendTopicAddress: queue:ffc-pay-file-send
   eventsTopicAddress: queue:ffc-pay-events
-ingress:
-  server: azure.defra.cloud
-  endpoint: ffc-pay-file-publisher-snd2
