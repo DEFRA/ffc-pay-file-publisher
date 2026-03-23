@@ -8,12 +8,17 @@ const schema = Joi.object({
   container: Joi.string().required(),
   outboundFolder: Joi.string().required(),
   archiveFolder: Joi.string().required(),
-  shareConnectionString: Joi.string().required(),
+  shareConnectionString: Joi.string().when('enabled', {
+    is: true,
+    then: Joi.required(),
+    otherwise: Joi.optional()
+  }),
   shareName: Joi.string().required(),
   apFolder: Joi.string().required(),
   arFolder: Joi.string().required(),
   dpsFolder: Joi.string().required(),
-  managedIdentityClientId: Joi.string().optional()
+  managedIdentityClientId: Joi.string().optional(),
+  enabled: Joi.boolean().default(true)
 })
 
 const config = {
@@ -29,7 +34,8 @@ const config = {
   apFolder: process.env.AP_FOLDER,
   arFolder: process.env.AR_FOLDER,
   dpsFolder: process.env.DPS_FOLDER,
-  managedIdentityClientId: process.env.AZURE_CLIENT_ID
+  managedIdentityClientId: process.env.AZURE_CLIENT_ID,
+  enabled: process.env.FILE_PUBLISH_ENABLED
 }
 
 const result = schema.validate(config, {
