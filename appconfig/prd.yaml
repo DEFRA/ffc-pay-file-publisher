@@ -5,14 +5,13 @@ container:
   messageQueueHost: PRDFFCINFSB1001.servicebus.windows.net
   azureStorageAccountName: prdffcpayst1001
   redisHostname: PRDFFCINFRD1001.redis.cache.windows.net
-ingress:
-  server: azure.defra.cloud
-  endpoint: ffc-pay-file-publisher-prd
 secretProviderClass:
   azure:
     keyvaultName: PRDFFCINFKV1001
     objects:
       - objectName: prd-ffcahwr-appinsights-connectionString
+        objectType: secret
+      - objectName: prd-ffcpayDaxStorageConnectionString
         objectType: secret
 
   secretObjects:
@@ -21,3 +20,5 @@ secretProviderClass:
       data:
         - objectName: prd-ffcahwr-appinsights-connectionString
           key: APPINSIGHTS_CONNECTIONSTRING
+        - objectName: prd-ffcpayDaxStorageConnectionString
+          key: DAX_STORAGE_CONNECTION_STRING

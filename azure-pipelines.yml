@@ -36,3 +36,40 @@ extends:
     branchDeployment: ${{ parameters.branchDeployment }}
     sndDeployment: ${{ parameters.sndDeployment }}
     failOnThreshold: moderate  # Optional: moderate (default), low, high, critical
+    variableGroupName: ffc-pay-file-publisher-env-var
+    pr_params:
+      container.apFolder: $(pr_apFolder)
+      container.arFolder: $(pr_arFolder)
+      container.dpsFolder: $(pr_dpsFolder)
+      container.filePublishEnabled: $(pr_filePublishEnabled)
+      container.useEvents: $(pr_useEvents)
+    snd2_params:
+      container.apFolder: $(snd2_apFolder)
+      container.arFolder: $(snd2_arFolder)
+      container.dpsFolder: $(snd2_dpsFolder)
+      container.filePublishEnabled: $(snd2_filePublishEnabled)
+      container.useEvents: $(snd2_useEvents)
+    dev_params:
+      container.apFolder: $(dev_apFolder)
+      container.arFolder: $(dev_arFolder)
+      container.dpsFolder: $(dev_dpsFolder)
+      container.filePublishEnabled: $(dev_filePublishEnabled)
+      container.useEvents: $(dev_useEvents)
+    test_params:
+      container.apFolder: $(test_apFolder)
+      container.arFolder: $(test_arFolder)
+      container.dpsFolder: $(test_dpsFolder)
+      container.filePublishEnabled: $(test_filePublishEnabled)
+      container.useEvents: $(test_useEvents)
+    pre_params:
+      container.apFolder: $(pre_apFolder)
+      container.arFolder: $(pre_arFolder)
+      container.dpsFolder: $(pre_dpsFolder)
+      container.filePublishEnabled: $(pre_filePublishEnabled)
+      container.useEvents: $(pre_useEvents)
+    prd_params:
+      container.apFolder: $(prd_apFolder)
+      container.arFolder: $(prd_arFolder)
+      container.dpsFolder: $(prd_dpsFolder)
+      container.filePublishEnabled: $(prd_filePublishEnabled)
+      container.useEvents: $(prd_useEvents)
