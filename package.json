@@ -27,8 +27,8 @@
     "@azure/storage-blob": "12.31.0",
     "@azure/storage-file-share": "12.29.1",
     "applicationinsights": "2.9.6",
-    "ffc-messaging": "2.10.4",
-    "ffc-pay-event-publisher": "1.2.1",
+    "ffc-messaging": "2.10.5",
+    "ffc-pay-event-publisher": "1.2.3",
     "joi": "17.7.0",
     "log-timestamp": "0.3.0"
   },
