@@ -44,7 +44,7 @@ let receiver
 
 describe('process send message', () => {
   beforeEach(() => {
-    receiver = { completeMessage: jest.fn() }
+    receiver = { completeMessage: jest.fn(), deadLetterMessage: jest.fn() }
     message = { body: { filename: 'filename.csv', ledger: AP } }
     jest.clearAllMocks()
   })
@@ -95,5 +95,16 @@ describe('process send message', () => {
     jest.mock('../../../app/config/publish', () => ({ enabled: false }))
     await processSendMessage(message, receiver)
     expect(mockPublishFile).not.toHaveBeenCalled()
+  })
+
+  test('dead-letters message when RestError with BlobNotFound', async () => {
+    const restErr = { name: 'RestError', details: { errorCode: 'BlobNotFound' } }
+    mockBlob.downloadToBuffer.mockRejectedValue(restErr)
+
+    await processSendMessage(message, receiver)
+
+    expect(receiver.completeMessage).not.toHaveBeenCalled()
+    expect(receiver.deadLetterMessage).toHaveBeenCalledWith(message)
+    expect(mockSendProcessFailureEvent).toHaveBeenCalled()
   })
 })
