@@ -12,6 +12,10 @@ const processSendMessage = async (message, receiver) => {
     await receiver.completeMessage(message)
   } catch (err) {
     console.error('Unable to process message:', err)
+    const errorCode = err?.details?.errorCode
+    if (errorCode === 'BlobNotFound') {
+      await receiver.deadLetterMessage(message)
+    }
     await sendProcessFailureEvent(message.body.filename, err)
   }
 }
