@@ -23,4 +23,5 @@ data:
   DPS_FOLDER: {{ quote .Values.container.dpsFolder }}
   USE_EVENTS: {{ quote .Values.container.useEvents }}
   FILE_PUBLISH_ENABLED: {{ quote .Values.container.filePublishEnabled }}
+  AZURE_LOG_LEVEL: {{ quote .Values.container.azureLogLevel }}
 {{- end -}}
