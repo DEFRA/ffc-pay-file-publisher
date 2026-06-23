@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-file-publisher",
-  "version": "1.0.41",
+  "version": "1.0.42",
   "description": "Publish payment files to DAX",
   "homepage": "https://github.com/DEFRA/ffc-pay-file-publisher",
   "main": "app/index.js",
@@ -20,7 +20,8 @@
     "John Watson john.watson2@rpa.gov.uk",
     "Sam Plackett samuel.plackett@atos.net",
     "Leigh Godson leigh.godson.external@atos.net",
-    "Oliver Lewington oliver.lewington@atos.net"
+    "Oliver Lewington oliver.lewington@atos.net",
+    "Alistair Wishart alistair.wishart@atos.net"
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
@@ -30,7 +31,7 @@
     "@azure/monitor-opentelemetry": "1.18.0",
     "ffc-messaging": "2.10.6",
     "ffc-pay-event-publisher": "1.2.5",
-    "joi": "17.7.0",
+    "joi": "18.2.1",
     "log-timestamp": "0.3.0"
   },
   "devDependencies": {
@@ -47,7 +48,10 @@
     ]
   },
   "overrides": {
-    "protobufjs": "8.2.0",
-    "uuid": "11.1.1"
+    "protobufjs": "8.6.3",
+    "uuid": "11.1.1",
+    "joi": "18.2.1",
+    "js-yaml": "4.2.0",
+    "@opentelemetry/core": "2.8.0"
   }
 }
