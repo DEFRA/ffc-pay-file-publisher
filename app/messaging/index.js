@@ -1,17 +1,30 @@
 const config = require('../config/message')
 const processSendMessage = require('./process-send-message')
-const { MessageReceiver } = require('ffc-messaging')
+const { createServiceBusClient, createReceiver, subscribeReceiver, closeSenders } = require('./service-bus')
+
+let sbClient
 let receiver
 
 const start = async () => {
-  const action = message => processSendMessage(message, receiver)
-  receiver = new MessageReceiver(config.sendSubscription, action)
-  await receiver.subscribe()
+  sbClient = createServiceBusClient(config.sendSubscription)
+  receiver = createReceiver(sbClient, config.sendSubscription)
+  const errorHandler = (err) => console.error('Error receiving message:', err)
+
+  subscribeReceiver(receiver, processSendMessage, errorHandler, config.sendSubscription)
   console.info('Ready to publish files')
 }
 
 const stop = async () => {
-  await receiver.closeConnection()
+  if (sbClient) {
+    try {
+      await sbClient.close()
+    } catch (err) {
+      console.error('Error closing Service Bus client:', err)
+    }
+    sbClient = null
+  }
+  await closeSenders()
+  receiver = null
 }
 
 module.exports = { start, stop }
