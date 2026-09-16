@@ -1,9 +1,4 @@
 const { sendBatchMessages } = require('../../../../app/messaging/service-bus/send-batch-messages')
-const messageSchema = require('../../../../app/messaging/service-bus/message-schema')
-
-jest.mock('../../../../app/messaging/service-bus/message-schema', () => ({
-  validateAsync: jest.fn()
-}))
 
 describe('sendBatchMessages', () => {
   let sender
@@ -25,7 +20,6 @@ describe('sendBatchMessages', () => {
       }),
       sendMessages: jest.fn().mockResolvedValue()
     }
-    messageSchema.validateAsync.mockResolvedValue()
   })
 
   test('adds all messages to one batch and sends it', async () => {
@@ -72,6 +66,32 @@ describe('sendBatchMessages', () => {
 
     await expect(sendBatchMessages(sender, messages)).rejects.toThrow('Message too big to fit in a batch')
     expect(sender.sendMessages).not.toHaveBeenCalled()
+  })
+
+  test('does not send final batch when no messages were added', async () => {
+    await sendBatchMessages(sender, [])
+
+    expect(sender.createMessageBatch).toHaveBeenCalledTimes(1)
+    expect(sender.sendMessages).not.toHaveBeenCalled()
+  })
+
+  test('throws if message still does not fit after flushing a full batch', async () => {
+    const tryAddResults = [true, false, false]
+    batch.tryAddMessage.mockImplementation(() => {
+      const result = tryAddResults.shift()
+      if (result) {
+        batch.count += 1
+      }
+      return result
+    })
+
+    const messages = [
+      { body: { id: 1 }, type: 'type-1', source: 'source' },
+      { body: { id: 2 }, type: 'type-2', source: 'source' }
+    ]
+
+    await expect(sendBatchMessages(sender, messages)).rejects.toThrow('Message too big to fit in a batch')
+    expect(sender.sendMessages).toHaveBeenCalledTimes(1)
   })
 
   test('passes send options through', async () => {
