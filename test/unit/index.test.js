@@ -1,4 +1,7 @@
-jest.mock('../../app/messaging')
+jest.mock('../../app/messaging', () => ({
+  start: jest.fn().mockResolvedValue(),
+  stop: jest.fn().mockResolvedValue()
+}))
 const messaging = require('../../app/messaging')
 
 describe('app', () => {

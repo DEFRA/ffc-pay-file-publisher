@@ -29,14 +29,29 @@ describe('BlobServiceClient initialization', () => {
     jest.resetModules()
     jest.clearAllMocks()
 
-    config = require('../../app/config/storage')
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    ({ BlobServiceClient } = require('@azure/storage-blob'));
-    ({ DefaultAzureCredential } = require('@azure/identity'))
+    config = {
+      connectionStr: 'fake-connection-string',
+      storageAccount: 'fakeaccount',
+      useConnectionStr: true,
+      createContainers: false,
+      container: 'dax',
+      outboundFolder: 'outbound',
+      archiveFolder: 'archive',
+      shareConnectionString: 'fake-share-connection-string',
+      shareName: 'share',
+      apFolder: 'ap',
+      arFolder: 'ar',
+      dpsFolder: 'dps',
+      managedIdentityClientId: 'fake-managed-id'
+    }
+    jest.doMock('../../app/config/storage', () => config)
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    BlobServiceClient = require('@azure/storage-blob').BlobServiceClient
+    DefaultAzureCredential = require('@azure/identity').DefaultAzureCredential
   })
 
   afterEach(() => {
-    consoleLogSpy.mockRestore()
+    consoleLogSpy?.mockRestore()
     jest.clearAllMocks()
   })
 
