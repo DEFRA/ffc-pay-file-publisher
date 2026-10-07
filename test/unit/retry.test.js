@@ -42,4 +42,13 @@ describe('retry', () => {
     } catch {}
     expect(mockFunction).toHaveBeenCalledTimes(2)
   })
+
+  test('uses options object when provided', async () => {
+    mockFunction.mockRejectedValueOnce('error')
+    mockFunction.mockResolvedValueOnce('success')
+
+    await retry(mockFunction, { retriesLeft: 2, interval: 1, exponential: false })
+
+    expect(mockFunction).toHaveBeenCalledTimes(2)
+  })
 })

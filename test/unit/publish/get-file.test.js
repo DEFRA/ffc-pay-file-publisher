@@ -1,6 +1,8 @@
-jest.mock('../../../app/storage')
+jest.mock('../../../app/storage', () => ({
+  getFile: jest.fn()
+}))
 const mockStorage = require('../../../app/storage')
-jest.mock('../../../app/retry')
+jest.mock('../../../app/retry', () => jest.fn())
 const mockRetry = require('../../../app/retry')
 
 const getFile = require('../../../app/publish/get-file')

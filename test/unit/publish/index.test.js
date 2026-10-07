@@ -1,6 +1,9 @@
-jest.mock('../../../app/storage')
+jest.mock('../../../app/storage', () => ({
+  writeFile: jest.fn(),
+  archiveFile: jest.fn()
+}))
 const mockStorage = require('../../../app/storage')
-jest.mock('../../../app/publish/get-file')
+jest.mock('../../../app/publish/get-file', () => jest.fn())
 const mockGetFile = require('../../../app/publish/get-file')
 const { AP } = require('../../../app/ledgers')
 const publish = require('../../../app/publish')
