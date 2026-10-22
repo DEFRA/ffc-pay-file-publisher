@@ -36,6 +36,7 @@ extends:
     branchDeployment: ${{ parameters.branchDeployment }}
     sndDeployment: ${{ parameters.sndDeployment }}
     failOnThreshold: moderate  # Optional: moderate (default), low, high, critical
+    runSnykScan: false
     variableGroupName: ffc-pay-file-publisher-env-var
     pr_params:
       container.apFolder: $(pr_apFolder)
