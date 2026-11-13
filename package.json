@@ -36,12 +36,12 @@
     "log-timestamp": "0.3.0"
   },
   "devDependencies": {
-    "eslint": "9.39.1",
+    "eslint": "10.14.0",
     "husky": "9.1.7",
-    "jest": "29.6.4",
+    "jest": "30.5.2",
     "jest-junit": "17.0.0",
-    "neostandard": "0.12.2",
-    "nodemon": "3.0.1"
+    "neostandard": "0.14.1",
+    "nodemon": "3.1.4"
   },
   "nodemonConfig": {
     "ignore": [
