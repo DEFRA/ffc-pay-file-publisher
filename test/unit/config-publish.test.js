@@ -9,6 +9,6 @@ describe('Publish Config Validation', () => {
     // Expect an error to be thrown during validation
     expect(() => {
       require('../../app/config/publish')
-    }).toThrowError(/The publishing config is invalid./)
+    }).toThrow(/The publishing config is invalid./)
   })
 })
